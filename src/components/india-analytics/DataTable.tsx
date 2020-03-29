@@ -37,8 +37,8 @@ export const IndiaDataTable = () => {
         let data: any = stats;
         return (
             <div className={"dataTable"}>
-                <p style={{textAlign: "center", fontWeight:"bold", marginBottom:"0px"}}>COVID-19 Infections of the World in 2019-2020</p>
-                <p style={{textAlign: "center"}}>source: Rapid APIs</p>
+                <p style={{textAlign: "center", fontWeight:"bold", marginBottom:"0px"}}>COVID-19 Infections of India in 2019-2020</p>
+                <p style={{textAlign: "center"}}>source: covid19india APIs  </p>
                 <Table striped hover bordered responsive>
                     <thead>
                         <tr>
