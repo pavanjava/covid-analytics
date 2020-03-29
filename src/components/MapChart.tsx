@@ -34,8 +34,6 @@ export const MapChart = () => {
                 mapData.push(dataItem);
             }
         });
-
-        console.log(mapData);
         visualize(mapData);
 
     }

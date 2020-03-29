@@ -1,37 +1,40 @@
 /* font faces */
+
 @font-face {
-  font-family: "basefont-regular";
-  src: local("basefont-regular"),
-    url("./assets/fonts/circular/CircularStd-Book.otf") format("opentype");
+    font-family: "basefont-regular";
+    src: local("basefont-regular"), url("./assets/fonts/circular/CircularStd-Book.otf") format("opentype");
 }
 
 @font-face {
-  font-family: "basefont-medium";
-  src: local("basefont-medium"),
-    url("./assets/fonts/circular/CircularStd-Medium.otf") format("opentype");
+    font-family: "basefont-medium";
+    src: local("basefont-medium"), url("./assets/fonts/circular/CircularStd-Medium.otf") format("opentype");
 }
 
 @font-face {
-  font-family: "basefont-bold";
-  src: local("basefont-bold"),
-    url("./assets/fonts/circular/CircularStd-Bold.otf") format("opentype");
+    font-family: "basefont-bold";
+    src: local("basefont-bold"), url("./assets/fonts/circular/CircularStd-Bold.otf") format("opentype");
 }
 
 .header {
-  text-align: center;
-  font-size: 20px;
-  font-weight: bold;
-  margin-top: 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
 }
 
-.pie-graph{
-  float: left;
+.pie-graph {
+    float: left;
 }
 
 .donut-graph {
-  float: left;
+    float: left;
 }
 
-.line-graph{
-  text-align: center;
+.line-graph {
+    text-align: center;
+}
+
+.table-responsive {
+    height: 400px;
+    overflow-y: scroll;
 }
