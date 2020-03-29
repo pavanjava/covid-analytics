@@ -9,36 +9,30 @@ am4core.useTheme(am4themes_animated);
 let chartObject: am4charts.XYChart;
 
 const fetchCovid19Stats = async () => {
-    const response = await axios.get('https://covid19.mathdro.id/api/deaths');
+    const response = await axios.get('https://api.covid19india.org/data.json');
     return response.data;
 }
 
 const createSeries = async (values: any) => {
 
     const stats = await fetchCovid19Stats();
-    let data: any[] = [];
+    let data: any = [];
+    stats.statewise.shift();
+    stats.statewise.forEach((state:any, index: number) => {
+        let dataItem: any = { category: state.state };
+        dataItem["active"] = state.active;
+        dataItem["recovered"] = state.recovered;
+        dataItem["confirmed"] = state.confirmed;
+        dataItem["deaths"] = state.deaths;
+        data.push(dataItem);
+    })
 
-    let groupedData = _.groupBy(stats, 'iso2');
-    _.keys(groupedData).forEach((key: any, index: number) => {
-        if (key && key !== 'undefined') {
-            const deathValue = _.sum(groupedData[key].map((country) => { return country.deaths; }));
-            const activeValue = _.sum(groupedData[key].map((country) => { return country.active; }));
-            const recoveredValue = _.sum(groupedData[key].map((country) => { return country.recovered; }));
-            const confirmedValue = _.sum(groupedData[key].map((country) => { return country.confirmed; }));
-            let dataItem: any = { category: key };
-            dataItem["active"] = activeValue;
-            dataItem["recovered"] = recoveredValue;
-            dataItem["confirmed"] = confirmedValue;
-            dataItem["deaths"] = deathValue;
-            data.push(dataItem);
-        }
-    });
-
-    data = _.sortBy(data, [(o) => { return o.category; }]);
+    data = _.sortBy(data, [(o) => { return o.confirmed; }]);
+    data = _.orderBy(data,['confirmed'],['desc']);
     chartObject.data = data;
 
     values.forEach((value: string) => {
-        let series = chartObject.series.push(new am4charts.LineSeries());
+        let series = chartObject.series.push(new am4charts.ColumnSeries());
         series.dataFields.valueY = value
         series.dataFields.categoryX = 'category'
         series.tooltipText = _.capitalize(value)+": {valueY.value}";
@@ -56,12 +50,13 @@ const createSeries = async (values: any) => {
     });
 }
 
-export const ColumnChart = () => {
+export const IndiaColumnChart = () => {
 
     useEffect(() => {
-        let chart = am4core.create('columnChartdiv', am4charts.XYChart);
+        let chart = am4core.create('IndiaColumnChartdiv', am4charts.XYChart);
+
         let title = chart.titles.create();
-        title.text = "[bold font-size: 16]COVID-19 Infections of the World in 2019-2020[/]\nsource: Rapid APIs";
+        title.text = "[bold font-size: 16]COVID-19 Infections of india in 2019-2020[/]\nsource: covig19india APIs";
         chartObject = chart;
         chart.colors.step = 2;
 
@@ -86,6 +81,6 @@ export const ColumnChart = () => {
     }, []);
 
     return (
-        <div id="columnChartdiv" style={{ width: "100%", height: "500px" }}></div>
+        <div id="IndiaColumnChartdiv" style={{ width: "100%", height: "500px" }}></div>
     )
 }

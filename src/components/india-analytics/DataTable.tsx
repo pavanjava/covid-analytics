@@ -4,14 +4,15 @@ import axios from 'axios';
 import * as _ from 'lodash';
 
 const fetchCovid19Stats = async () => {
-    const response = await axios.get('https://covid19.mathdro.id/api/deaths');
+    const response = await axios.get('https://api.covid19india.org/data.json');
+    response.data.statewise.shift();
     return response.data;
 }
 
 const createDataTable = (statsObject: any, index: number) => {
     return (
         <tr key={index}>
-            <td>{statsObject.category}</td>
+            <td>{statsObject.state}</td>
             <td>{statsObject.confirmed}</td>
             <td>{statsObject.active}</td>
             <td>{statsObject.recovered}</td>
@@ -20,9 +21,9 @@ const createDataTable = (statsObject: any, index: number) => {
     );
 }
 
-export const DataTable = () => {
+export const IndiaDataTable = () => {
 
-    const [stats, setStats] = useState([]);
+    const [stats, setStats] = useState({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,26 +33,8 @@ export const DataTable = () => {
         fetchData();
     }, []);
 
-    if (stats.length !== 0) {
-        let data: any[] = [];
-        let groupedData = _.groupBy(stats, 'iso2');
-        _.keys(groupedData).forEach((key: any, index: number) => {
-            if (key && key !== 'undefined') {
-                const deathValue = _.sum(groupedData[key].map((country:any) => { return country.deaths; }));
-                const activeValue = _.sum(groupedData[key].map((country:any) => { return country.active; }));
-                const recoveredValue = _.sum(groupedData[key].map((country:any) => { return country.recovered; }));
-                const confirmedValue = _.sum(groupedData[key].map((country:any) => { return country.confirmed; }));
-                let dataItem: any = { category: key };
-                dataItem["active"] = activeValue;
-                dataItem["recovered"] = recoveredValue;
-                dataItem["confirmed"] = confirmedValue;
-                dataItem["deaths"] = deathValue;
-                data.push(dataItem);
-            }
-        });
-
-        data = _.sortBy(data, [(o:any) => { return o.confirmed; }]);
-        data = _.orderBy(data, ['confirmed'],['desc']);
+    if (!_.isEmpty(stats)) {
+        let data: any = stats;
         return (
             <div className={"dataTable"}>
                 <p style={{textAlign: "center", fontWeight:"bold", marginBottom:"0px"}}>COVID-19 Infections of the World in 2019-2020</p>
@@ -59,7 +42,7 @@ export const DataTable = () => {
                 <Table striped hover bordered responsive>
                     <thead>
                         <tr>
-                            <th>Country</th>
+                            <th>State</th>
                             <th>Confirmed</th>
                             <th>Active</th>
                             <th>Recovered</th>
@@ -67,7 +50,7 @@ export const DataTable = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map(createDataTable)}
+                        {data.statewise.map(createDataTable)}
                     </tbody>
                 </Table>
             </div>
