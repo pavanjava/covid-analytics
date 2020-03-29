@@ -12,7 +12,7 @@ export const Dashboard = () => {
                 <div className="line-graph">
                     <ColumnChart />
                 </div>
-                <div className="col-6 pie-graph">
+                <div className="col-6 data-table">
                     <DataTable />
                 </div>
                 <div className="col-6 donut-graph">
