@@ -15,7 +15,8 @@ export const DataTable = () => {
     const createDataTable = (statsObject: any, index: number) => {
         return (
             <tr key={index}>
-                <td>{statsObject.combinedKey}</td>
+                <td>{statsObject.countryRegion}</td>
+                <td>{statsObject.provinceState}</td>
                 <td>{statsObject.confirmed}</td>
                 <td>{statsObject.active}</td>
                 <td>{statsObject.recovered}</td>
@@ -33,12 +34,15 @@ export const DataTable = () => {
     }, []);
 
     if (stats.length !== 0) {
-        const data = _.sortBy(stats, ['combinedKey']);
+        const data = _.sortBy(stats, ['countryRegion','confirmed']);
         return (
             <div className={"dataTable"}>
+                <p style={{textAlign: "center", fontWeight:"bold", marginBottom:"0px"}}>COVID-19 Infections of the World in 2019-2020</p>
+                <p style={{textAlign: "center"}}>source: Rapid APIs</p>
                 <Table striped hover bordered responsive>
                     <thead>
                         <tr>
+                            <th>Country</th>
                             <th>State Province</th>
                             <th>Confirmed</th>
                             <th>Active</th>
