@@ -18,7 +18,7 @@ const createSeries = async (values: any) => {
     const stats = await fetchCovid19Stats();
     let data: any = [];
     stats.statewise.shift();
-    stats.statewise.forEach((state:any, index: number) => {
+    stats.statewise.forEach((state: any, index: number) => {
         let dataItem: any = { category: state.state };
         dataItem["active"] = state.active;
         dataItem["recovered"] = state.recovered;
@@ -28,14 +28,14 @@ const createSeries = async (values: any) => {
     })
 
     data = _.sortBy(data, [(o) => { return o.confirmed; }]);
-    data = _.orderBy(data,['confirmed'],['desc']);
+    data = _.orderBy(data, ['confirmed'], ['desc']);
     chartObject.data = data;
 
     values.forEach((value: string) => {
         let series = chartObject.series.push(new am4charts.ColumnSeries());
         series.dataFields.valueY = value
         series.dataFields.categoryX = 'category'
-        series.tooltipText = _.capitalize(value)+": {valueY.value}";
+        series.tooltipText = _.capitalize(value) + ": {valueY.value}";
         series.name = value;
 
         chartObject.scrollbarX = new am4charts.XYChartScrollbar();

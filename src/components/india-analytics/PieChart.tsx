@@ -16,10 +16,10 @@ const drawPieChart = (data: any) => {
 
     // Add data
     chartObject.data = [
-        { "sector": "Confirmed", "size": data.statewise[0].confirmed },
-        { "sector": "active", "size": data.statewise[0].active },
-        { "sector": "recovered", "size": data.statewise[0].recovered },
-        { "sector": "deaths", "size": data.statewise[0].deaths }
+        { "sector": "Confirmed", "size": data.statewise[0].confirmed, "color": am4core.color("#FFA500") },
+        { "sector": "active", "size": data.statewise[0].active,"color": am4core.color("#FFFF00") },
+        { "sector": "recovered", "size": data.statewise[0].recovered, "color": am4core.color("#008000")},
+        { "sector": "deaths", "size": data.statewise[0].deaths, "color": am4core.color("#FF0000") }
     ];
 
     // Add label
@@ -34,6 +34,7 @@ const drawPieChart = (data: any) => {
     var pieSeries = chartObject.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "size";
     pieSeries.dataFields.category = "sector";
+    pieSeries.slices.template.propertyFields.fill = "color";
 }
 
 export const IndiaDataOverAll = () => {
